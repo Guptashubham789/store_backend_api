@@ -2,6 +2,9 @@
 const express=require('express');
 const  mongoose  = require('mongoose');
 const authRouter=require('./routes/auth');
+const bannerRouter=require('./routes/banner');
+const categoryRouter=require('./routes/category');
+const subCategoryRouter=require('./routes/sub_category');
 //Define the port number the server will listen on
 const PORT=3000;
 
@@ -15,6 +18,9 @@ const DB="mongodb+srv://shubhamtech731159:R6rWZIDht1GduMBv@cluster0.hanqwnh.mong
 //middleware - to register route or to mount routes
 app.use(express.json());
 app.use(authRouter);
+app.use(bannerRouter);
+app.use(categoryRouter);
+app.use(subCategoryRouter);
 
 mongoose.connect(DB).then(()=>{
     console.log('mongodb connected');
