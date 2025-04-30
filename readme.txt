@@ -43,3 +43,6 @@ Password hash/hide:
         const salt=await bcrypt.genSalt(10);
         //hash the password using the genrated salt
         const hashedPassword =await bcrypt.hash(password,salt);
+
+//http://localhost:3000/api/categories/Clouthe/subcategories
+//http://localhost:3000/api/categories

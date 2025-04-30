@@ -5,6 +5,7 @@ const authRouter=require('./routes/auth');
 const bannerRouter=require('./routes/banner');
 const categoryRouter=require('./routes/category');
 const subCategoryRouter=require('./routes/sub_category');
+const productRouter=require('./routes/product');
 //Define the port number the server will listen on
 const PORT=3000;
 
@@ -21,14 +22,16 @@ app.use(authRouter);
 app.use(bannerRouter);
 app.use(categoryRouter);
 app.use(subCategoryRouter);
+app.use(productRouter);
+
 
 mongoose.connect(DB).then(()=>{
     console.log('mongodb connected');
 });
 
 
-//start the server and listen on the specified port
 
+//start the server and listen on the specified port
 app.listen(PORT,"0.0.0.0",function(){
     ///log the number
     console.log('server is running on port '+PORT)
