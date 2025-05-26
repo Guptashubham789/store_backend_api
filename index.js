@@ -7,6 +7,7 @@ const categoryRouter=require('./routes/category');
 const subCategoryRouter=require('./routes/sub_category');
 const productRouter=require('./routes/product');
 const productReviewRouter=require('./routes/product_review');
+const cors=require('cors');
 //Define the port number the server will listen on
 const PORT=3000;
 
@@ -19,6 +20,7 @@ const DB="mongodb+srv://shubhamtech731159:R6rWZIDht1GduMBv@cluster0.hanqwnh.mong
 
 //middleware - to register route or to mount routes
 app.use(express.json());
+app.use(cors());/// enable cors for all routes and origin(domain)
 app.use(authRouter);
 app.use(bannerRouter);
 app.use(categoryRouter);

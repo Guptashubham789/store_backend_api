@@ -13,6 +13,15 @@ subCategoryRouter.post('/api/subcategories',async(req ,res)=>{
     }
 });
 
+subCategoryRouter.get('/api/subcategories',async (req,res)=>{
+    try{
+        const subcategor=await SubCategory.find();
+        return res.status(200).json(subcategor);
+
+    }catch(err){
+        res.status(500).json({error:err.message});
+    }
+});
 subCategoryRouter.get('/api/categories/:categoryName/subcategories',async(req,res)=>{
     ///extract the categoryName from the req Url using Destructuring
     try{
