@@ -1,26 +1,25 @@
-const express = require('express');
-const User = require('../models/user');
+const express=require('express');
+const Vendor = require('../models/vendor');
+const vendorRouter=express.Router();
 const bcrypt = require('bcryptjs');
-const authRouter = express.Router();
 const jwt = require('jsonwebtoken');
 
-
-authRouter.post('/api/signup', async (req, res) => {
+vendorRouter.post('/api/vendor/signup', async (req, res) => {
   try {
     const { fullName, email, password } = req.body;
 
-    const existingEmail = await User.findOne({ email });
+    const existingEmail = await Vendor.findOne({email});
     if (existingEmail) {
-      return res.status(400).json({ msg: "user with same email already exist" });
+      return res.status(400).json({ msg: "vendor with same email already exist" });
     } else {
       //genrate a salt with a cost factor of 10
       const salt = await bcrypt.genSalt(10);
       //hash the password using the genrated salt
       const hashedPassword = await bcrypt.hash(password, salt);
 
-      let user = new User({ fullName, email, password: hashedPassword });
-      user = await user.save();
-      res.json({ user });
+      let vendor = new Vendor({fullName, email, password: hashedPassword });
+      vendor = await vendor.save();
+      res.json({vendor});
     }
 
   } catch (e) {
@@ -28,14 +27,12 @@ authRouter.post('/api/signup', async (req, res) => {
   }
 });
 
-//signin api
-
-authRouter.post('/api/signin', async (req, res) => {
+vendorRouter.post('/api/vendor/signin', async (req, res) => {
   try {
     const { email, password } = req.body;
-    const foundUser = await User.findOne({ email });
+    const foundUser = await Vendor.findOne({ email });
     if (!foundUser) {
-      return res.status(400).json({ msg: "User not found with this email" });
+      return res.status(400).json({ msg: "Vendor not found with this email" });
     } else {
       const isMatch = await bcrypt.compare(password, foundUser.password);
       if (!isMatch) {
@@ -44,9 +41,9 @@ authRouter.post('/api/signin', async (req, res) => {
         const token = jwt.sign({ id: foundUser._id }, "PasswordKey");
 
         //remove sentitive information
-        const { password, ...userWithoutPassword } = foundUser._doc;
+        const { password, ...vendorWithoutPassword } = foundUser._doc;
         //send the response
-        res.json({token,user:userWithoutPassword });
+        res.json({token,vendor:vendorWithoutPassword });
 
       }
     }
@@ -55,5 +52,4 @@ authRouter.post('/api/signin', async (req, res) => {
     res.status(500).json({error:e.message});  
   }
 });
-
-module.exports = authRouter;
+module.exports=vendorRouter;
