@@ -42,5 +42,19 @@ productRouter.get('/api/recommend-products',async(req,res)=>{
 
     }
 });
+//new route for reteriving product by category
+productRouter.get('/api/products-by-category/:category',async(req,res)=>{
+    try{
+        const {category}=req.params;
+      const products=  await Product.find({category});
+      if(!products || products.length==0){
+        return res.status(400).json({msg:"No record found"});
+      }else{
+        return res.status(200).json(products);
+      }
+    }catch(e){
+         res.status(500).json({error:e.message});
+    }
+});
 
 module.exports=productRouter;
