@@ -20,7 +20,7 @@ productRouter.get('/api/popular-products',async(req,res)=>{
             return res.status(404).json({msg:"popular product not found"});
 
         }else{
-            return res.status(200).json({product});
+            return res.status(200).json(product);
         }
     }catch(e){
         res.status(500).json({error:e.message});
